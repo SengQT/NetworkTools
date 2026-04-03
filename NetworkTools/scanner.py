@@ -42,5 +42,5 @@ class PortScanner:
         "total_open": len(self.open_ports)
     }
         with open (f"results/{self.target}.json", "w") as f:
-            json.dump(self.result, f, indent=2)
+            json.dump(result, f, indent=2)
         print(f"Saved to results/{self.target}.json")
