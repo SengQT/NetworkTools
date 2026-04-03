@@ -19,4 +19,15 @@ class PortScanner:
         for port in range(start,end):
             queue.put(port)
         
-        
+        def thread():
+            while not queue.empty():
+                port = queue.get()
+                self.scan_port(port)
+                queue.task_done()
+        for i in range(self.thread):
+            t = threading.Thread(target=thread)
+            t.daemon = True
+            t.start()
+
+        queue.join()
+        print(f"Open port: {sorted(self.open_ports)}")
