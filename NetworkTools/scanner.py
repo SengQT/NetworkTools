@@ -1,6 +1,8 @@
+import os
 import socket
 import threading
 from queue import Queue
+import json
 class PortScanner:
     def __init__(self,target,thread=100):
         self.target = target
@@ -31,3 +33,14 @@ class PortScanner:
 
         queue.join()
         print(f"Open port: {sorted(self.open_ports)}")
+
+    def save_as_json(self):
+        os.makedirs("results", exist_ok=True)  # ← auto creates if not exist
+        result = {
+        "target": self.target,
+        "open_ports": sorted(self.open_ports),
+        "total_open": len(self.open_ports)
+    }
+        with open (f"results/{self.target}.json", "w") as f:
+            json.dump(self.result, f, indent=2)
+        print(f"Saved to results/{self.target}.json")
