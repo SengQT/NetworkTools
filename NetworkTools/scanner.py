@@ -1,5 +1,6 @@
 import socket
-
+import threading
+from queue import Queue
 class PortScanner:
     def __init__(self,target,thread=100):
         self.target = target
@@ -12,3 +13,10 @@ class PortScanner:
         if s.connect_ex((self.target, port)) == 0:
             self.open_ports.append(port)
         s.close()
+
+    def scan_all_port(self,start=1, end =1025):
+        queue = Queue()
+        for port in range(start,end):
+            queue.put(port)
+        
+        
